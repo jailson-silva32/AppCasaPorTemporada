@@ -33,19 +33,23 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_imagem"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
-                app:cardCornerRadius="5dp"
-                android:layout_marginTop="24dp"
+                android:onClick="verificaPermissaoGaleria"
                 android:layout_gravity="center_horizontal"
-                android:backgroundTint="@color/azul_padrao">
-                
+                android:layout_marginTop="24dp"
+                android:backgroundTint="@color/azul_padrao"
+                app:cardCornerRadius="5dp">
+
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_foto"
-                    android:layout_gravity="center"/>
-                
+                    android:id="@+id/img_anuncio"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_foto" />
+
             </androidx.cardview.widget.CardView>
 
             <EditText
@@ -197,6 +201,15 @@
                 android:checked="true"
                 android:text="Disponivel"
                 android:textColor="@color/azul_padrao" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:layout_gravity="center_horizontal"
+                android:indeterminateTint="@color/azul_padrao"/>
 
 
         </LinearLayout>
