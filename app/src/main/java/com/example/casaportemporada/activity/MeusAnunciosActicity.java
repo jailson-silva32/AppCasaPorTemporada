@@ -1,9 +1,11 @@
 package com.example.casaportemporada.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -28,7 +30,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class MeusAnunciosActicity extends AppCompatActivity {
+public class MeusAnunciosActicity extends AppCompatActivity implements AdapterAnuncios.OnClick {
 
     private List<Anuncio> anuncioList = new ArrayList<>();
 
@@ -45,7 +47,7 @@ public class MeusAnunciosActicity extends AppCompatActivity {
 
         iniciaComponetes();
         configRv();
-        recuperaAnuncios();
+        configCliques();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -54,10 +56,22 @@ public class MeusAnunciosActicity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        recuperaAnuncios();
+    }
+
+    private void configCliques(){
+        findViewById(R.id.ib_add).setOnClickListener(view ->
+                startActivity(new Intent(this, FormAnuncioActivity.class)));
+    }
+
     private void configRv(){
         rv_anuncios.setLayoutManager(new LinearLayoutManager(this));
         rv_anuncios.setHasFixedSize(true);
-        adapterAnuncios = new AdapterAnuncios(anuncioList);
+        adapterAnuncios = new AdapterAnuncios(anuncioList, this);
 
         rv_anuncios.setAdapter(adapterAnuncios);
     }
@@ -96,11 +110,18 @@ public class MeusAnunciosActicity extends AppCompatActivity {
 
     private void iniciaComponetes(){
         TextView text_titulo = findViewById(R.id.text_titulo);
-        text_titulo.setText("Meus anuncios");
+        text_titulo.setText("Meus Anúncios");
 
     progressBar = findViewById(R.id.progressBar);
     text_info = findViewById(R.id.text_info);
     rv_anuncios = findViewById(R.id.rv_anuncios);
 
+    }
+
+    @Override
+    public void OnClickListener(Anuncio anuncio) {
+        Intent intent = new Intent(this, FormAnuncioActivity.class);
+        intent.putExtra("anuncio", anuncio);
+        startActivity(intent);
     }
 }
