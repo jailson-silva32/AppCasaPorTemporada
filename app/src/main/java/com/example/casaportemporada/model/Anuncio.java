@@ -2,6 +2,7 @@ package com.example.casaportemporada.model;
 
 import com.example.casaportemporada.helper.FirebaseHelper;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.Serializable;
 
@@ -27,6 +28,22 @@ public class Anuncio implements Serializable {
                 .child(FirebaseHelper.getIdFirebase())
                 .child(this.getId());
         reference.setValue(this);
+    }
+    public void deletar(){
+        DatabaseReference reference = FirebaseHelper.getDatabaseReference()
+                .child("anuncios")
+                .child(FirebaseHelper.getIdFirebase())
+                .child(this.getId());
+        reference.removeValue().addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                StorageReference storageReference = FirebaseHelper.getStorageReference()
+                        .child("imagens")
+                        .child("anuncios")
+                        .child(this.getId() + ".jpeg");
+                storageReference.delete();
+            }
+
+        });
     }
 
     public String getId() {

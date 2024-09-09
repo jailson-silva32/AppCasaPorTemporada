@@ -5,16 +5,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.casaportemporada.R;
 import com.example.casaportemporada.adapter.AdapterAnuncios;
@@ -24,9 +24,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.tsuryo.swipeablerv.SwipeLeftRightCallback;
+import com.tsuryo.swipeablerv.SwipeableRecyclerView;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class MeusAnunciosActicity extends AppCompatActivity implements AdapterAn
 
     private ProgressBar progressBar;
     private TextView text_info;
-    private RecyclerView rv_anuncios;
+    private SwipeableRecyclerView rv_anuncios;
     private AdapterAnuncios adapterAnuncios;
 
     @Override
@@ -72,8 +73,35 @@ public class MeusAnunciosActicity extends AppCompatActivity implements AdapterAn
         rv_anuncios.setLayoutManager(new LinearLayoutManager(this));
         rv_anuncios.setHasFixedSize(true);
         adapterAnuncios = new AdapterAnuncios(anuncioList, this);
-
         rv_anuncios.setAdapter(adapterAnuncios);
+
+        rv_anuncios.setListener(new SwipeLeftRightCallback.Listener() {
+            @Override
+            public void onSwipedLeft(int position) {
+            }
+
+            @Override
+            public void onSwipedRight(int position) {
+                showDialogDelete(position);
+            }
+        });
+    }
+
+    private void showDialogDelete(int pos){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Delete anúncios.");
+        builder.setMessage("Aperte em sim para confirmar ou não para cancelar.");
+        builder.setNegativeButton("Não", ((dialogInterface, i) -> {
+            dialogInterface.dismiss();
+            adapterAnuncios.notifyDataSetChanged();
+        }));
+        builder.setPositiveButton("Sim", ((dialogInterface, i) -> {
+            anuncioList.get(pos).deletar();
+            adapterAnuncios.notifyItemRemoved(pos);
+        }));
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void recuperaAnuncios(){
