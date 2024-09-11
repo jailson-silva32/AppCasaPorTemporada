@@ -5,16 +5,15 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".activity.FormAnuncioActivity">
+    android:background="@android:color/white"
+    tools:context=".activity.DetalheAnuncioActivity">
 
     <include
-        android:id="@+id/include3"
-        layout="@layout/tooblbar_voltar_salvar"
+        android:id="@+id/include5"
+        layout="@layout/tooblbar_voltar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,75 +21,57 @@
         android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include3">
+        app:layout_constraintTop_toBottomOf="@+id/include5"
+        app:layout_constraintVertical_bias="0.619">
 
-
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_imagem"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
-                android:onClick="verificaPermissaoGaleria"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="24dp"
-                android:backgroundTint="@color/azul_padrao"
-                app:cardCornerRadius="5dp">
 
-                <ImageView
-                    android:id="@+id/img_anuncio"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_foto" />
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            </androidx.cardview.widget.CardView>
-
-            <EditText
-                android:id="@+id/edit_titulo"
+            <TextView
+                android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="24dp"
-                android:background="@drawable/bg_edit"
-                android:hint="Titulo"
-                android:padding="16dp" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/bg_edit"
-                android:layout_height="100dp">
+                android:layout_marginEnd="16dp"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+               android:text="Vende-se casa em frente a praia" />
 
-                <EditText
-                    android:id="@+id/edit_descricao"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:backgroundTint="@color/white"
-                    android:hint="Descrição"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView2"
+                android:text="Com 5 suites, suite com hidromassagem, closet e varanda, sala de estar com 200m, cozinha gourmet com armarios, area de servi;o, garam, piscina com deck suspenso de madeira e vista para lagoa, churrasqueira, area do terreno total 7.400m. Area construida 1500m." />
 
             <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView3">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -98,14 +79,14 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical">>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:text="Quartos"
-                        android:textColor="@color/azul_padrao"/>
+                        android:textColor="@color/azul_padrao" />
 
 
                     <EditText
@@ -138,7 +119,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:text="Banheiros"
-                            android:textColor="@color/azul_padrao"/>
+                            android:textColor="@color/azul_padrao" />
 
 
                         <EditText
@@ -162,13 +143,11 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical">>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
@@ -177,7 +156,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:text="Garagem"
-                            android:textColor="@color/azul_padrao"/>
+                            android:textColor="@color/azul_padrao" />
 
 
                         <EditText
@@ -198,29 +177,23 @@
 
             </LinearLayout>
 
-            <CheckBox
-                android:id="@+id/cb_status"
-                android:layout_width="wrap_content"
+            <android.widget.Button
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:buttonTint="@color/azul_padrao"
-                android:checked="true"
-                android:text="Disponivel"
-                android:textColor="@color/azul_padrao" />
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                tools:visibility="visible"
-                android:layout_gravity="center_horizontal"
-                android:indeterminateTint="@color/azul_padrao"/>
+                android:layout_margin="16dp"
+                android:background="@drawable/bg_btn"
+                android:text="Ligar"
+                android:drawableStart="@drawable/ic_ligar"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:drawablePadding="-40dp"
+                android:textColor="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
