@@ -9,6 +9,7 @@ import java.io.Serializable;
 public class Anuncio implements Serializable {
 
     private String id;
+    private String idUsuario;
     private String titulo;
     private String descricao;
     private String quarto;
@@ -16,6 +17,7 @@ public class Anuncio implements Serializable {
     private String garagem;
     private boolean status;
     private String urlImagem;
+
 
     public Anuncio() {
         DatabaseReference reference = FirebaseHelper.getDatabaseReference();
@@ -28,6 +30,11 @@ public class Anuncio implements Serializable {
                 .child(FirebaseHelper.getIdFirebase())
                 .child(this.getId());
         reference.setValue(this);
+
+        DatabaseReference anuncioPublico = FirebaseHelper.getDatabaseReference()
+                .child("anuncios_publicos")
+                .child(this.getId());
+        anuncioPublico.setValue(this);
     }
     public void deletar(){
         DatabaseReference reference = FirebaseHelper.getDatabaseReference()
@@ -53,6 +60,10 @@ public class Anuncio implements Serializable {
     public void setId(String id) {
         this.id = id;
     }
+
+    public String getIdUsuario() {return idUsuario; }
+
+    public void setIdUsuario(String idUsuario) {this.idUsuario = idUsuario; }
 
     public String getTitulo() {
         return titulo;

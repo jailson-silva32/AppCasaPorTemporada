@@ -137,7 +137,7 @@ public class MeusAnunciosActicity extends AppCompatActivity implements AdapterAn
     }
 
     private void iniciaComponetes(){
-        TextView text_titulo = findViewById(R.id.text_titulo);
+        TextView text_titulo = findViewById(R.id.text_titulo_anuncio);
         text_titulo.setText("Meus Anúncios");
 
     progressBar = findViewById(R.id.progressBar);

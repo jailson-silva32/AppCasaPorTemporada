@@ -141,6 +141,7 @@ if(!titulo.isEmpty()){
                 if(!garagem.isEmpty()){
 
                    if (anuncio == null) anuncio = new Anuncio();
+                    anuncio.setIdUsuario(FirebaseHelper.getIdFirebase());
                     anuncio.setTitulo(titulo);
                     anuncio.setDescricao(descricao);
                     anuncio.setQuarto(quartos);
@@ -213,7 +214,7 @@ if(!titulo.isEmpty()){
     }
 
 private void iniciaComponetes(){
-TextView text_titulo= findViewById(R.id.text_titulo);
+TextView text_titulo= findViewById(R.id.text_titulo_anuncio);
 text_titulo.setText("Form anuncio");
 
 
