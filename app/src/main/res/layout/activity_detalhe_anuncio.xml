@@ -187,6 +187,7 @@
                 android:drawableStart="@drawable/ic_ligar"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
+                android:onClick="ligar"
                 android:drawablePadding="-40dp"
                 android:textColor="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"

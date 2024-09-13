@@ -1,19 +1,29 @@
 package com.example.casaportemporada.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.casaportemporada.R;
+import com.example.casaportemporada.helper.FirebaseHelper;
 import com.example.casaportemporada.model.Anuncio;
+import com.example.casaportemporada.model.Usuario;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class DetalheAnuncioActivity extends AppCompatActivity {
@@ -26,6 +36,7 @@ public class DetalheAnuncioActivity extends AppCompatActivity {
     private EditText edit_garagem;
 
     private Anuncio anuncio;
+    private Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +52,35 @@ public class DetalheAnuncioActivity extends AppCompatActivity {
         iniciaComponetes();
 
         anuncio = (Anuncio) getIntent().getSerializableExtra("anuncio");
+        recuperaAnunciante();
         configDados();
+    }
+
+    public void ligar(View view){
+        if (usuario != null){
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tell:" + usuario.getTelefone()));
+            startActivity(intent);
+        }else {
+            Toast.makeText(this, "Carregando informações, aguarde...", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void recuperaAnunciante(){
+        DatabaseReference reference = FirebaseHelper.getDatabaseReference()
+                .child("usuarios")
+                .child(anuncio.getIdUsuario());
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    usuario = snapshot.getValue(Usuario.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void configDados(){
