@@ -59,7 +59,7 @@ public class DetalheAnuncioActivity extends AppCompatActivity {
     public void ligar(View view){
         if (usuario != null){
             Intent intent = new Intent(Intent.ACTION_DIAL);
-            intent.setData(Uri.parse("tell:" + usuario.getTelefone()));
+            intent.setData(Uri.parse("tel:" + usuario.getTelefone()));
             startActivity(intent);
         }else {
             Toast.makeText(this, "Carregando informações, aguarde...", Toast.LENGTH_SHORT).show();
