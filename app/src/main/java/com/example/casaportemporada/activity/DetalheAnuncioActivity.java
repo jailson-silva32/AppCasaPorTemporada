@@ -3,6 +3,7 @@ package com.example.casaportemporada.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -52,8 +53,8 @@ public class DetalheAnuncioActivity extends AppCompatActivity {
         iniciaComponetes();
 
         anuncio = (Anuncio) getIntent().getSerializableExtra("anuncio");
-        recuperaAnunciante();
         configDados();
+        recuperaAnunciante();
     }
 
     public void ligar(View view){
@@ -67,24 +68,36 @@ public class DetalheAnuncioActivity extends AppCompatActivity {
     }
 
     private void recuperaAnunciante(){
-        DatabaseReference reference = FirebaseHelper.getDatabaseReference()
+        String idUsuario = anuncio.getIdUsuario();
+        Log.d("DEBUG", "ID do Usuario: " + idUsuario);
+
+        if (idUsuario != null) {
+            DatabaseReference reference = FirebaseHelper.getDatabaseReference()
                 .child("usuarios")
-                .child(anuncio.getIdUsuario());
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                .child(Anuncio.getIdUsuario());
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
                     usuario = snapshot.getValue(Usuario.class);
-            }
+                    configDados();
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+
+        } else {
+            Log.e("Error", "ID do usuario e nulo!");
+        }
+
     }
 
     private void configDados(){
        if (anuncio != null){
+           Log.d("DEBUG", "URL da imagem: " + anuncio.getUrlImagem());
+
            Picasso.get().load(anuncio.getUrlImagem()).into(img_anuncio);
            text_titulo_anuncio.setText(anuncio.getTitulo());
            text_descricao.setText(anuncio.getDescricao());

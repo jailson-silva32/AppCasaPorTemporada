@@ -1,5 +1,7 @@
 package com.example.casaportemporada.model;
 
+import android.util.Log;
+
 import com.example.casaportemporada.helper.FirebaseHelper;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.StorageReference;
@@ -9,7 +11,7 @@ import java.io.Serializable;
 public class Anuncio implements Serializable {
 
     private String id;
-    private String idUsuario;
+    private static String idUsuario;
     private String titulo;
     private String descricao;
     private String quarto;
@@ -61,7 +63,7 @@ public class Anuncio implements Serializable {
         this.id = id;
     }
 
-    public String getIdUsuario() {return idUsuario; }
+    public static String getIdUsuario() {return idUsuario; }
 
     public void setIdUsuario(String idUsuario) {this.idUsuario = idUsuario; }
 
