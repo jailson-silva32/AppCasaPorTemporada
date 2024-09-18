@@ -49,6 +49,7 @@ public class MeusAnunciosActicity extends AppCompatActivity implements AdapterAn
         iniciaComponetes();
         configRv();
         configCliques();
+        configClique();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -63,6 +64,10 @@ public class MeusAnunciosActicity extends AppCompatActivity implements AdapterAn
 
         recuperaAnuncios();
     }
+    private void configClique(){
+        findViewById(R.id.ib_voltar).setOnClickListener(view -> finish());
+    }
+
 
     private void configCliques(){
         findViewById(R.id.ib_add).setOnClickListener(view ->
@@ -152,4 +157,5 @@ public class MeusAnunciosActicity extends AppCompatActivity implements AdapterAn
         intent.putExtra("anuncio", anuncio);
         startActivity(intent);
     }
+
 }

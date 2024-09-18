@@ -1,6 +1,10 @@
 package com.example.casaportemporada.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,18 +13,125 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.casaportemporada.R;
+import com.example.casaportemporada.model.Filtro;
 
 public class FiltrarAnuncioActivity extends AppCompatActivity {
+
+    private TextView text_quarto;
+    private TextView text_banheiro;
+    private TextView text_garagem;
+
+    private SeekBar sb_quarto;
+    private SeekBar sb_banheiro;
+    private SeekBar sb_garagem;
+
+    private int qtd_quarto;
+    private int qtd_banheiro;
+    private  int qtd_garagem;
+
+    private Filtro filtro;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_filtrar_anuncio);
+
+        iniciaComponentes();
+        configCliques();
+        configSb();
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
     }
+
+    public void filtrar(View view){
+        if (filtro == null) filtro = new Filtro();
+
+        if (qtd_quarto > 0) filtro.setQtdQuarto(qtd_quarto);
+        if (qtd_banheiro > 0) filtro.setQtdBanheiro(qtd_banheiro);
+        if (qtd_garagem > 0) filtro.setQtdGaragem(qtd_garagem);
+
+        Intent intent = new Intent(this, MainActivity.class);
+
+        if (qtd_quarto > 0 || qtd_banheiro > 0 || qtd_garagem > 0) {
+            intent.putExtra("filtro", filtro);
+        }
+        startActivity(intent);
+    }
+
+    private void configSb(){
+        sb_quarto.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                text_quarto.setText(i + " quartos ou mais");
+                qtd_quarto = i;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+        sb_banheiro.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                text_banheiro.setText(i + " banheiros ou mais");
+                qtd_banheiro = i;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+        sb_garagem.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                text_garagem.setText(i + " garagem ou mais");
+                qtd_garagem = i;
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+    }
+
+    public  void limparFiltro(View view){
+        qtd_quarto = 0;
+        qtd_banheiro = 0;
+        qtd_garagem = 0;
+
+
+        finish();
+    }
+
+    private void configCliques(){
+        findViewById(R.id.ib_voltar).setOnClickListener(view -> finish());
+    }
+
+    private void iniciaComponentes(){
+        TextView text_titulo = findViewById(R.id.text_titulo);
+        text_titulo.setText("Filtrar");
+
+        text_quarto = findViewById(R.id.text_quarto);
+        text_banheiro = findViewById(R.id.text_banheiro);
+        text_garagem = findViewById(R.id.text_garagem);
+
+        sb_quarto = findViewById(R.id.sb_quarto);
+        sb_banheiro = findViewById(R.id.sb_banheiro);
+        sb_garagem = findViewById(R.id.sb_garagem);
+    }
+
 }

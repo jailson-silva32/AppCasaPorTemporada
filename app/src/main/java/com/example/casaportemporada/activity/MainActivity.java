@@ -2,6 +2,7 @@ package com.example.casaportemporada.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
@@ -23,6 +24,7 @@ import com.example.casaportemporada.activity.autenticacao.LoginActivity;
 import com.example.casaportemporada.adapter.AdapterAnuncios;
 import com.example.casaportemporada.helper.FirebaseHelper;
 import com.example.casaportemporada.model.Anuncio;
+import com.example.casaportemporada.model.Filtro;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,11 +43,17 @@ public class MainActivity extends AppCompatActivity implements AdapterAnuncios.O
     private AdapterAnuncios adapterAnuncios;
     private ImageButton ib_menu;
 
+    private Filtro filtro;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+        filtro = (Filtro) getIntent().getSerializableExtra("filtro");
+        if (filtro != null){
+            Log.i("INFOTESTE", "onCreate: " + filtro.getQtdQuarto());
+        }
 
         iniciaComponente();
         configRv();

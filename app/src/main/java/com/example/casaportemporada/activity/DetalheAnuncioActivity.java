@@ -55,6 +55,10 @@ public class DetalheAnuncioActivity extends AppCompatActivity {
         anuncio = (Anuncio) getIntent().getSerializableExtra("anuncio");
         configDados();
         recuperaAnunciante();
+        configCliques();
+    }
+    private void configCliques(){
+        findViewById(R.id.ib_voltar).setOnClickListener(view -> finish());
     }
 
     public void ligar(View view){
