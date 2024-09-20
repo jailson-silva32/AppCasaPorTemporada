@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -35,6 +36,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AdapterAnuncios.OnClick {
+
+    private final int REQUEST_FILTRO = 100;
+
     private RecyclerView rv_anuncios;
     private TextView text_info;
     private ProgressBar progressBar;
@@ -50,10 +54,6 @@ public class MainActivity extends AppCompatActivity implements AdapterAnuncios.O
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        filtro = (Filtro) getIntent().getSerializableExtra("filtro");
-        if (filtro != null){
-            Log.i("INFOTESTE", "onCreate: " + filtro.getQtdQuarto());
-        }
 
         iniciaComponente();
         configRv();
@@ -102,6 +102,50 @@ public class MainActivity extends AppCompatActivity implements AdapterAnuncios.O
         });
     }
 
+    private void recuperaAnunciosFiltro(){
+        DatabaseReference reference = FirebaseHelper.getDatabaseReference()
+                .child("anuncios_publicos");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    anuncioList.clear();
+                    for (DataSnapshot snap : snapshot.getChildren()){
+                        Anuncio anuncio = snap.getValue(Anuncio.class);
+
+                        int quarto = Integer.parseInt(anuncio.getQuarto());
+                        int banheiro = Integer.parseInt(anuncio.getBanheiro());
+                        int garagem = Integer.parseInt(anuncio.getGaragem());
+
+                        if (quarto >= filtro.getQtdQuarto() &&
+                                banheiro >= filtro.getQtdBanheiro() &&
+                                garagem >= filtro.getQtdGaragem()){
+                            anuncioList.add(anuncio);
+                        }
+
+
+                    }
+
+                }
+
+                if (anuncioList.size() == 0){
+                    text_info.setText("Nenhum anuncio cadastrado.");
+                }else {
+                    text_info.setText("");
+                }
+
+                progressBar.setVisibility(View.GONE);
+                Collections.reverse(anuncioList);
+                adapterAnuncios.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     private void configCliques(){
         ib_menu.setOnClickListener(view -> {
             PopupMenu popupMenu = new PopupMenu(this, ib_menu);
@@ -109,7 +153,10 @@ public class MainActivity extends AppCompatActivity implements AdapterAnuncios.O
 
             popupMenu.setOnMenuItemClickListener(menuItem -> {
                 if (menuItem.getItemId() == R.id.menu_filtrar){
-                startActivity(new Intent(this, FiltrarAnuncioActivity.class));
+                    Intent intent = new Intent(this, FiltrarAnuncioActivity.class);
+                    intent.putExtra("filtro", filtro);
+                    startActivityForResult(intent, REQUEST_FILTRO);
+
                 } else if (menuItem.getItemId() == R.id.menu_meus_anuncios) {
                     if (FirebaseHelper.getAutenticado()){
                         startActivity(new Intent(this, MeusAnunciosActicity.class));
@@ -149,6 +196,23 @@ public class MainActivity extends AppCompatActivity implements AdapterAnuncios.O
         rv_anuncios = findViewById(R.id.rv_anuncios);
         text_info = findViewById(R.id.text_info);
         progressBar = findViewById(R.id.progressBar);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK){
+            if (resultCode == REQUEST_FILTRO){
+
+                filtro = (Filtro) data.getSerializableExtra("filtro");
+                if (filtro.getQtdQuarto() > 0 || filtro.getQtdBanheiro() > 0 || filtro.getQtdGaragem() > 0){
+                    recuperaAnunciosFiltro();
+                }
+
+            }
+
+        }
     }
 
     @Override

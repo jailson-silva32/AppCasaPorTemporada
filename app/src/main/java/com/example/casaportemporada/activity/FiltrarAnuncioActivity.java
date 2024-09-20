@@ -39,6 +39,17 @@ public class FiltrarAnuncioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_filtrar_anuncio);
 
         iniciaComponentes();
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null){
+            filtro = (Filtro) bundle.getSerializable("filtro");
+            if (filtro != null){
+                configFiltos();
+            }
+
+        }
+
+
         configCliques();
         configSb();
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -48,6 +59,20 @@ public class FiltrarAnuncioActivity extends AppCompatActivity {
         });
     }
 
+    private void configFiltos(){
+        sb_quarto.setProgress(filtro.getQtdQuarto());
+        sb_banheiro.setProgress(filtro.getQtdBanheiro());
+        sb_garagem.setProgress(filtro.getQtdGaragem());
+
+        text_quarto.setText(filtro.getQtdQuarto() + " quartos ou mais");
+        text_banheiro.setText(filtro.getQtdBanheiro() + " banheiros ou mais");
+        text_garagem.setText(filtro.getQtdGaragem() + " garagem ou mais");
+
+        qtd_quarto = filtro.getQtdQuarto();
+        qtd_banheiro = filtro.getQtdBanheiro();
+        qtd_garagem = filtro.getQtdGaragem();
+    }
+
     public void filtrar(View view){
         if (filtro == null) filtro = new Filtro();
 
@@ -55,12 +80,16 @@ public class FiltrarAnuncioActivity extends AppCompatActivity {
         if (qtd_banheiro > 0) filtro.setQtdBanheiro(qtd_banheiro);
         if (qtd_garagem > 0) filtro.setQtdGaragem(qtd_garagem);
 
-        Intent intent = new Intent(this, MainActivity.class);
+
 
         if (qtd_quarto > 0 || qtd_banheiro > 0 || qtd_garagem > 0) {
+            Intent intent = new Intent();
             intent.putExtra("filtro", filtro);
+            setResult(RESULT_OK, intent);
         }
-        startActivity(intent);
+
+        finish();
+
     }
 
     private void configSb(){
