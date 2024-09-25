@@ -212,6 +212,8 @@ public class MainActivity extends AppCompatActivity implements AdapterAnuncios.O
 
             }
 
+        }else {
+            recuperaAnuncios();
         }
     }
 

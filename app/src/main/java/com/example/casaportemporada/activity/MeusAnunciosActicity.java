@@ -49,7 +49,7 @@ public class MeusAnunciosActicity extends AppCompatActivity implements AdapterAn
         iniciaComponetes();
         configRv();
         configCliques();
-        configClique();
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -64,14 +64,13 @@ public class MeusAnunciosActicity extends AppCompatActivity implements AdapterAn
 
         recuperaAnuncios();
     }
-    private void configClique(){
-        findViewById(R.id.ib_voltar).setOnClickListener(view -> finish());
-    }
+
 
 
     private void configCliques(){
         findViewById(R.id.ib_add).setOnClickListener(view ->
                 startActivity(new Intent(this, FormAnuncioActivity.class)));
+        findViewById(R.id.ib_voltar).setOnClickListener(view -> finish());
     }
 
     private void configRv(){
@@ -124,6 +123,8 @@ public class MeusAnunciosActicity extends AppCompatActivity implements AdapterAn
                      }
                      text_info.setText("");
                 }else {
+                    anuncioList.clear();
+                    adapterAnuncios.notifyDataSetChanged();
                     text_info.setText("Nenhum anuncio cadastrado.");
                 }
 

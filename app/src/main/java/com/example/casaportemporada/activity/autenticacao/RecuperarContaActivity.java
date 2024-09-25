@@ -74,7 +74,7 @@ public class RecuperarContaActivity extends AppCompatActivity {
         edit_email = findViewById(R.id.edit_email);
         progressBar = findViewById(R.id.progressBar);
 
-        TextView text_titulo = findViewById(R.id.text_titulo_anuncio);
+        TextView text_titulo = findViewById(R.id.text_titulo);
         text_titulo.setText("Recuperar conta");
             }
 

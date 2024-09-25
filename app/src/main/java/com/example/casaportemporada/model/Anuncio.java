@@ -51,7 +51,10 @@ public class Anuncio implements Serializable {
                         .child(this.getId() + ".jpeg");
                 storageReference.delete();
             }
-
+            DatabaseReference anuncioPublicoRef = FirebaseHelper.getDatabaseReference()
+                    .child("anuncios_publicos")
+                    .child(this.getId());
+            anuncioPublicoRef.removeValue();
         });
     }
 

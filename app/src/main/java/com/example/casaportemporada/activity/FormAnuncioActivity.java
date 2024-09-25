@@ -214,7 +214,7 @@ if(!titulo.isEmpty()){
     }
 
 private void iniciaComponetes(){
-TextView text_titulo= findViewById(R.id.text_titulo_anuncio);
+TextView text_titulo= findViewById(R.id.text_titulo);
 text_titulo.setText("Form anuncio");
 
 

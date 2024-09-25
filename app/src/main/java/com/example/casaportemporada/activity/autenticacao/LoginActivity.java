@@ -46,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
 
         findViewById(R.id.text_recuperar_conta).setOnClickListener(view ->
                 startActivity(new Intent(this, RecuperarContaActivity.class)));
+        findViewById(R.id.ib_voltar).setOnClickListener(view -> finish());
     }
 
     public void validaDados(View view) {
@@ -81,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
             }else {
+                progressBar.setVisibility(View.GONE);
                 String error = task.getException().getMessage();
                 Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
             }
